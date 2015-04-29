@@ -5,17 +5,61 @@
  */
 package practica.main;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+
 /**
  *
  * @author marco
  */
-public class Ntp_Server {
+public class Ntp_Server extends Thread {
 
+    public static final int port = 5000;
+    private ServerSocket socketS;
+    
+    public Ntp_Server() throws IOException {
+        socketS = new ServerSocket(port);
+    }
+    
+    public void run() {
+        
+        DataOutputStream salida;
+        DataInputStream entrada;
+        String message;
+        
+        while(true) {
+            try {
+                Socket socketC = socketS.accept();
+                entrada = new DataInputStream(socketC.getInputStream());
+                message = entrada.readUTF();
+                Date tiempo = new Date();
+                
+                socketC.close();
+            }
+            catch(IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public static void main(String[] args) throws IOException {
+        
+        try {
+            Thread t = new Ntp_Server();
+            t.start();
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
     }
     
 }
