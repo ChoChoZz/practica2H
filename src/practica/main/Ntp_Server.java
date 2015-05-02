@@ -38,6 +38,10 @@ public class Ntp_Server extends Thread {
                 message = entrada.readUTF();
                 Date tiempo = new Date();
                 
+                System.out.println("el tiempo de server es: "+tiempo.getTime());
+                System.out.println("el tiempo en el cliente es: "+message);
+                tiempo.setTime(Long.parseLong(message));
+                System.out.println("la hora es: "+tiempo);
                 socketC.close();
             }
             catch(IOException ex) {
