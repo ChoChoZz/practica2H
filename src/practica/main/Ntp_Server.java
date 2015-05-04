@@ -29,7 +29,7 @@ public class Ntp_Server extends Thread {
         
         DataOutputStream salida;
         DataInputStream entrada;
-        String message;
+        String message,messageSal;
         
         while(true) {
             try {
@@ -37,11 +37,13 @@ public class Ntp_Server extends Thread {
                 entrada = new DataInputStream(socketC.getInputStream());
                 message = entrada.readUTF();
                 Date tiempo = new Date();
-                
-                System.out.println("el tiempo de server es: "+tiempo.getTime());
-                System.out.println("el tiempo en el cliente es: "+message);
-                tiempo.setTime(Long.parseLong(message));
-                System.out.println("la hora es: "+tiempo);
+                messageSal=Long.toString(tiempo.getTime())+"@";
+                salida = new DataOutputStream(socketC.getOutputStream());
+                salida.writeUTF(messageSal+tiempo.getTime());
+               // System.out.println("el tiempo de server es: "+tiempo.getTime());
+               // System.out.println("el tiempo en el cliente es: "+message);
+               // tiempo.setTime(Long.parseLong(message));
+               // System.out.println("la hora es: "+tiempo);
                 socketC.close();
             }
             catch(IOException ex) {
