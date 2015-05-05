@@ -35,13 +35,14 @@ public class Ntp_Server extends Thread {
             try {
                 Socket socketC = socketS.accept();
                 entrada = new DataInputStream(socketC.getInputStream());
-                message = entrada.readUTF();
-                Date tiempo = new Date();
-                messageSal=Long.toString(tiempo.getTime())+"@";
+                message = entrada.readUTF(); //recibe hora del cliente
+                // System.out.println("el tiempo en el cliente es: "+message);
+                Date tiempo = new Date(); //obtiene hora del servidor
+                messageSal=Long.toString(tiempo.getTime())+"@";//convierte a cadena y concatena con @
                 salida = new DataOutputStream(socketC.getOutputStream());
-                salida.writeUTF(messageSal+tiempo.getTime());
+                salida.writeUTF(messageSal+tiempo.getTime()); //envia hora del cliente y hora del servidor
                // System.out.println("el tiempo de server es: "+tiempo.getTime());
-               // System.out.println("el tiempo en el cliente es: "+message);
+               
                // tiempo.setTime(Long.parseLong(message));
                // System.out.println("la hora es: "+tiempo);
                 socketC.close();
